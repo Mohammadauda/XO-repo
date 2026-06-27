@@ -1,15 +1,13 @@
 package org;
 
 public class Player {
-    public Character marker;
+    private final char marker;
 
-
-    Player(Character marker){
+    public Player(char marker) {
         this.marker = marker;
-
     }
 
-    public Character getMarker(){
+    public char getMarker() {
         return marker;
     }
 }

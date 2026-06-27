@@ -1,7 +1,7 @@
 package org;
 
 public class Board {
-    private char[][] cells;
+    private final char[][] cells;
 
     public Board() {
         cells = new char[3][3];
@@ -50,7 +50,6 @@ public class Board {
         System.out.println();
     }
 
-    // Package-visible getter for win checking in TicTacToe
     char getCell(int x, int y) {
         return cells[x][y];
     }
