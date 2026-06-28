@@ -5,7 +5,6 @@ public class Main {
 
         //13:40
 
-        int b = "hello";
 
         TicTacToe game = new TicTacToe();
         game.start();
