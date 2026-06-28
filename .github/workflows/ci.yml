@@ -1,0 +1,56 @@
+name: CI
+
+# Wann der Workflow ausgeführt wird
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    name: Build & Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Code auschecken
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. JDK 17 installieren (passend zu deiner pom.xml)
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      # 3. Projekt kompilieren
+      - name: Build with Maven
+        run: mvn -B compile
+
+      # 4. JUnit-Tests ausführen
+      - name: Run tests
+        run: mvn -B test
+
+      # 5. Testergebnisse hochladen, auch wenn Tests fehlschlagen
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/surefire-reports/
+
+      # 6. JAR bauen (Tests nicht erneut laufen lassen, Schritt 4 hat das schon getan)
+      - name: Package JAR
+        run: mvn -B package -DskipTests
+
+      # 7. "Deploy": JAR als herunterladbares Artefakt bereitstellen
+      #    Nur auf dem main-Branch, nicht bei Pull Requests
+      - name: Upload JAR artifact
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        uses: actions/upload-artifact@v4
+        with:
+          name: tictactoe-jar
+          path: target/*.jar
+          retention-days: 30
