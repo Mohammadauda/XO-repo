@@ -3,12 +3,14 @@ package org;
 import java.util.Scanner;
 
 public class TicTacToe {
+
     private final Player player1;
     private final Player player2;
     private Player currentPlayer;
     private final Board board;
     private final Scanner scanner;
 
+    // Hauptspiel
     public TicTacToe() {
         player1 = new Player('X');
         player2 = new Player('O');
@@ -17,6 +19,7 @@ public class TicTacToe {
         scanner = new Scanner(System.in);
     }
 
+    //Steuerung der einzelnen Spielrunden
     public void start() {
         System.out.println("====================");
         System.out.println(" Tic-Tac-Toe Game");
